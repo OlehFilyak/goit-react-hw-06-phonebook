@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Container from "./Components/Container/";
 import Section from "./Components/Section";
@@ -7,14 +9,16 @@ import PhoneBookList from "./Components/PhoneBookList";
 import PhoneBookEditor from "./Components/PhoneBookEditor";
 import Filter from "./Components/Filter";
 import FilterContacts from "./helpers/FiltersContacts";
-import InitialContacts from "./data/InitialContacts.json";
+import { setContact } from "./redux/slices/contacts";
 
 import "./App.css";
 
 export default function App() {
-  const [contacts, setContacts] = useState(
-    () => JSON.parse(window.localStorage.getItem("contacts")) ?? InitialContacts
-  );
+  const contacts = useSelector((state) => state.contacts);
+  const dispatch = useDispatch();
+  // const [contacts, setContacts] = useState(
+  //   () => JSON.parse(window.localStorage.getItem("contacts")) ?? []
+  // );
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   // const [filter, setFilter] = useState("");
@@ -54,14 +58,17 @@ export default function App() {
       number: number,
       id: nanoid(),
     };
-    setContacts((prevState) => [...prevState, newContact]);
+
+    dispatch(setContact(newContact));
+
+    // setContacts((prevState) => [...prevState, newContact]);
     setName("");
     setNumber("");
   };
 
-  const onDeleteContact = (e) => {
-    setContacts(() => contacts.filter((el) => el.id !== e.target.id));
-  };
+  // const onDeleteContact = (e) => {
+  //   setContact(() => contacts.filter((el) => el.id !== e.target.id));
+  // };
 
   const contactsArray = FilterContacts(contacts);
   return (
@@ -80,10 +87,7 @@ export default function App() {
             <Filter
             // onChange={handleChangeInput} filterValue={filter}
             />
-            <PhoneBookList
-              contacts={contactsArray}
-              onDeleteContact={onDeleteContact}
-            />
+            <PhoneBookList contacts={contactsArray} />
           </Section>
         </Section>
       </Container>
