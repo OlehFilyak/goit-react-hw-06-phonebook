@@ -6,7 +6,7 @@ import Section from "./Components/Section";
 import PhoneBookList from "./Components/PhoneBookList";
 import PhoneBookEditor from "./Components/PhoneBookEditor";
 import Filter from "./Components/Filter";
-import filterContacts from "./helpers/filtersContacts";
+import FilterContacts from "./helpers/FiltersContacts";
 import InitialContacts from "./data/InitialContacts.json";
 
 import "./App.css";
@@ -17,7 +17,7 @@ export default function App() {
   );
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const [filter, setFilter] = useState("");
+  // const [filter, setFilter] = useState("");
 
   useEffect(() => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
@@ -28,16 +28,13 @@ export default function App() {
 
     switch (name) {
       case "name":
-        setName(value);
-        break;
+        return setName(value);
 
       case "number":
-        setNumber(value);
-        break;
+        return setNumber(value);
 
-      case "filter":
-        setFilter(value);
-        break;
+      // case "filter":
+      //   return setFilter(value);
 
       default:
         return;
@@ -66,7 +63,7 @@ export default function App() {
     setContacts(() => contacts.filter((el) => el.id !== e.target.id));
   };
 
-  const contactsArray = filterContacts(contacts, filter);
+  const contactsArray = FilterContacts(contacts);
   return (
     <div className="App">
       <Container>
@@ -80,7 +77,9 @@ export default function App() {
             />
           </Section>
           <Section title={"Contacts"}>
-            <Filter onChange={handleChangeInput} filterValue={filter} />
+            <Filter
+            // onChange={handleChangeInput} filterValue={filter}
+            />
             <PhoneBookList
               contacts={contactsArray}
               onDeleteContact={onDeleteContact}

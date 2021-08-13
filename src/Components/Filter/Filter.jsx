@@ -1,11 +1,22 @@
-import PropTypes from "prop-types";
-function Filter({ onChange, filterValue }) {
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+import { setFilter } from "../../redux/slices/filter";
+
+function Filter() {
+  const dispatch = useDispatch();
+
+  const setFilterName = (e) => {
+    dispatch(setFilter(e.target.value));
+  };
+  // console.log(setFilterName);
+  const filterValue = useSelector((state) => state.filter);
   return (
     <label>
       Find Contact
       <input
         type="text"
-        onChange={onChange}
+        onChange={setFilterName}
         name="filter"
         value={filterValue}
         title="Введіть, будь ласка, ім'я, або прізвище людини, яку шукаєте"
@@ -14,10 +25,5 @@ function Filter({ onChange, filterValue }) {
     </label>
   );
 }
-
-Filter.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  filterValue: PropTypes.string.isRequired,
-};
 
 export default Filter;

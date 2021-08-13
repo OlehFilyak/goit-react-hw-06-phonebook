@@ -1,7 +1,10 @@
-function filterContacts(contacts, filter) {
+import { useSelector } from "react-redux";
+
+function FilterContacts(contacts) {
+  const filterValue = useSelector((state) => state.filter);
   return contacts.filter((obj) => {
-    return obj.name.toLowerCase().includes(filter.toLowerCase().trim());
+    return obj.name.toLowerCase().includes(filterValue.toLowerCase().trim());
   });
 }
 
-export default filterContacts;
+export default FilterContacts;
