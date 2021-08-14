@@ -10,17 +10,21 @@ import PhoneBookEditor from "./Components/PhoneBookEditor";
 import Filter from "./Components/Filter";
 import FilterContacts from "./helpers/FiltersContacts";
 import { setContact } from "./redux/slices/contacts";
+import { setNumber } from "./redux/slices/number";
+import { setName } from "./redux/slices/name";
 
 import "./App.css";
 
 export default function App() {
   const contacts = useSelector((state) => state.contacts);
+  const number = useSelector((state) => state.number);
+  const name = useSelector((state) => state.name);
   const dispatch = useDispatch();
   // const [contacts, setContacts] = useState(
   //   () => JSON.parse(window.localStorage.getItem("contacts")) ?? []
   // );
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
+  // const [name, setName] = useState("");
+  // const [number, setNumber] = useState("");
   // const [filter, setFilter] = useState("");
 
   useEffect(() => {
@@ -32,10 +36,10 @@ export default function App() {
 
     switch (name) {
       case "name":
-        return setName(value);
+        return dispatch(setName(value));
 
       case "number":
-        return setNumber(value);
+        return dispatch(setNumber(value));
 
       // case "filter":
       //   return setFilter(value);
@@ -62,8 +66,8 @@ export default function App() {
     dispatch(setContact(newContact));
 
     // setContacts((prevState) => [...prevState, newContact]);
-    setName("");
-    setNumber("");
+    dispatch(setName(""));
+    dispatch(setNumber(""));
   };
 
   // const onDeleteContact = (e) => {
@@ -77,8 +81,6 @@ export default function App() {
         <Section title={"Phonebook"}>
           <Section title={"Add new contact"}>
             <PhoneBookEditor
-              name={name}
-              number={number}
               handleAddNewContact={handleAddNewContact}
               handleChangeInput={handleChangeInput}
             />

@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
-function PhoneBookEditor({
-  handleAddNewContact,
-  handleChangeInput,
-  name,
-  number,
-}) {
+// import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+function PhoneBookEditor({ handleAddNewContact, handleChangeInput }) {
+  const number = useSelector((state) => state.number);
+  const name = useSelector((state) => state.name);
+  // const dispatch = useDispatch();
   return (
     <div>
       <form onSubmit={handleAddNewContact}>
@@ -49,8 +50,6 @@ function PhoneBookEditor({
 }
 
 PhoneBookEditor.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
   handleChangeInput: PropTypes.func.isRequired,
   handleAddNewContact: PropTypes.func.isRequired,
 };
